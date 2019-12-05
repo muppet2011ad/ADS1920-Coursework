@@ -45,9 +45,6 @@ def descendants(n1,n2,k):
                 else:
                     currentGen = getChild(currentGen)
             descCache[n] = descs
-            for i in descs:
-                if descs.count(i) != 1:
-                    print("AHHHHHHHHHHH", n, descs)
             
         if len(descs) == k:
             total += 1
