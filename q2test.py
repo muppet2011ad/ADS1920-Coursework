@@ -15,4 +15,4 @@ def q2test():
     assert descendants(123456,654321,20) == 4015
     assert descendants(1,1000000,59) == 402
     assert descendants(1,1000000,60) == 0
-    
+    print("All tests completed")
