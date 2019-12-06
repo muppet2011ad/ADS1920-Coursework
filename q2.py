@@ -45,7 +45,6 @@ def descendants(n1,n2,k):
                 else:
                     currentGen = getChild(currentGen)
             descCache[n] = descs
-        print(n,":",len(descs),descs)
             
         if len(descs) == k:
             total += 1
@@ -56,7 +55,6 @@ def q2test():
     print("t1 done")
     assert descendants(1,200,1) == 6
     print("t2 done")
-    input()
     assert descendants(1,200,2) == 2
     print("t3 done")
     assert descendants(1,2000,3) == 33
