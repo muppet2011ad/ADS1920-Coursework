@@ -36,9 +36,7 @@ def descendants(n1,n2,k): # Returns the number of integers [n1,n2) that have k d
                     if cached[len(cached)-1] in (n,currentGen): # Sometimes the last element of the cached sequence is the number we started with
                         cached = cached[:-1] # If so, just leave it out
                     if not set(descs).intersection(set(cached)): # Convert both our descendants and the cache to sets so we can find their intersection - if there are no common elements then we can use the cache
-                        descs = descs + descCache[currentGen] # Append the cache
-                        if descs[len(descs)-1] in (n,currentGen): # Do we need this?
-                            descs = descs[:-1]
+                        descs = descs + cached # Append the cache
                         break # If we've appended a cached list of descendants, then we don't need to iterate anymore
                     else:
                         currentGen = getChild(currentGen) # If we can't use the cache, find the next child
