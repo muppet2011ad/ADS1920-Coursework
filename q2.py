@@ -21,21 +21,37 @@ def getChild(num): # Function to get the child of a number
     childCache[num] = total # Cache the final result
     return total # Return the final result
 
+def getDescIter(n):
+    descs = []
+    cGen = getChild(n)
+    while cGen not in descs:
+        descs.append(cGen)
+        cGen = getChild(cGen)
+    return len(descs)
+
 def getDescendants(n, seq=[]):
+    print(n)
     if n in seq:
+        finstance = seq.index(n)
+        length = len(seq) - finstance
+        descCache[n] = length
         return -1
     if n in descCache:
+        print("getting cache for", n, ":", descCache[n])
         return descCache[n]
     res = 1 + getDescendants(getChild(n), seq + [n])
-    descCache[n] = res
+    if n not in descCache:
+        descCache[n] = res
     return res
 
 def descendants(n1,n2,k): # Returns the number of integers [n1,n2) that have k descendants
     total = 0 # Keeps a total of the number of ints with k descendants
     for i in range(n1,n2):
         descs = getDescendants(i)
+        print(i, descs)
         if descs == k:
             total += 1
+    print(total)
     return total
             
 def q2test():
