@@ -3,7 +3,7 @@
 
 factMemo = {0:1,1:1} # This stores the results of all factorisations so we can quickly access them on-demand
 childCache = {} # This caches the results of all children so that we do not have to calculate them again when the same numbers come up
-descCache = {1:1} # This caches the results of all descendants that we calculate, saving time on repeated tests (and when the same sequences comes up)
+descCache = {1:[1,0]} # This caches the results of all descendants that we calculate, saving time on repeated tests (and when the same sequences comes up)
 
 def fact(n): # Recursive function for factorising
     if n in factMemo: # If we have the factorial memoised
@@ -35,35 +35,35 @@ def getDescendants(n, seq=None):
     if seq == None:
         seq = []
     seq.append(n)
-    print(n)
+    #print(n)
     if n not in seq[:1] and n == getChild(n):
         return 0
     if seq.count(n) > 1:
         for i in range(seq.index(n),len(seq)):
-            descCache[seq[i]] = getDescIter(seq[i])
-            print("Iteration time motherhecker", seq[i], ":", descCache[seq[i]])
+            descCache[seq[i]] = [getDescIter(seq[i]),1]
+            #print("Iteration time motherhecker", seq[i], ":", descCache[seq[i]][0])
         return -1
     if n in descCache:
-        print("getting cache for", n, ":", descCache[n])
+        #print("getting cache for", n, ":", descCache[n])
         cache = descCache[n]
-        if cache == 2:
-            return getDescIter(n, seq)
-        return cache
+        if cache[1] == 1:
+            return cache[0]-1
+        return cache[0]
     res = 1 + getDescendants(getChild(n), seq)
     if n not in descCache:
-        print("Updating cache for", n, ":", res)
-        descCache[n] = res
+        #print("Updating cache for", n, ":", res)
+        descCache[n] = [res,0]
     return res
 
 def descendants(n1,n2,k): # Returns the number of integers [n1,n2) that have k descendants
     total = 0 # Keeps a total of the number of ints with k descendants
     for i in range(n1,n2):
         getDescendants(i)
-        descs = descCache[i]
-        print(i, descs)
+        descs = descCache[i][0]
+        #print(i, descs)
         if descs == k:
             total += 1
-    print(total)
+    #print(total)
     return total
             
 def q2test():
@@ -71,7 +71,6 @@ def q2test():
     print("t1 done")
     assert descendants(1,200,1) == 6
     print("t2 done")
-    input()
     assert descendants(1,200,2) == 2
     print("t3 done")
     assert descendants(1,2000,3) == 33
