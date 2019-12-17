@@ -21,33 +21,45 @@ def getChild(num): # Function to get the child of a number
     childCache[num] = total # Cache the final result
     return total # Return the final result
 
-def getDescIter(n):
+def getDescIter(n, pre = None):
     descs = []
+    if not pre:
+        pre = []
     cGen = getChild(n)
-    while cGen not in descs:
+    while cGen not in descs and cGen not in pre:
         descs.append(cGen)
         cGen = getChild(cGen)
     return len(descs)
 
-def getDescendants(n, seq=[]):
+def getDescendants(n, seq=None):
+    if seq == None:
+        seq = []
+    seq.append(n)
     print(n)
-    if n in seq:
-        finstance = seq.index(n)
-        length = len(seq) - finstance
-        descCache[n] = length
+    if n not in seq[:1] and n == getChild(n):
+        return 0
+    if seq.count(n) > 1:
+        for i in range(seq.index(n),len(seq)):
+            descCache[seq[i]] = getDescIter(seq[i])
+            print("Iteration time motherhecker", seq[i], ":", descCache[seq[i]])
         return -1
     if n in descCache:
         print("getting cache for", n, ":", descCache[n])
-        return descCache[n]
-    res = 1 + getDescendants(getChild(n), seq + [n])
+        cache = descCache[n]
+        if cache == 2:
+            return getDescIter(n, seq)
+        return cache
+    res = 1 + getDescendants(getChild(n), seq)
     if n not in descCache:
+        print("Updating cache for", n, ":", res)
         descCache[n] = res
     return res
 
 def descendants(n1,n2,k): # Returns the number of integers [n1,n2) that have k descendants
     total = 0 # Keeps a total of the number of ints with k descendants
     for i in range(n1,n2):
-        descs = getDescendants(i)
+        getDescendants(i)
+        descs = descCache[i]
         print(i, descs)
         if descs == k:
             total += 1
@@ -59,6 +71,7 @@ def q2test():
     print("t1 done")
     assert descendants(1,200,1) == 6
     print("t2 done")
+    input()
     assert descendants(1,200,2) == 2
     print("t3 done")
     assert descendants(1,2000,3) == 33
@@ -74,4 +87,7 @@ def q2test():
 
 
 if __name__ == "__main__":
+    #print(getDescendants(2))
+    #getDescendants(4)
+    #getDescendants(10)
     q2test()
