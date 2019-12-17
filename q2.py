@@ -1,7 +1,7 @@
 # q2.py written by James Townsend, December 2019
 # Tested using Python 3.7.4
 
-import datetime
+import datetime, cProfile
 
 factMemo = {0:1,1:1} # This stores the results of all factorisations so we can quickly access them on-demand
 childCache = {} # This caches the results of all children so that we do not have to calculate them again when the same numbers come up
@@ -91,10 +91,4 @@ if __name__ == "__main__":
     #print(getDescendants(2))
     #getDescendants(4)
     #getDescendants(10)
-    for i in range(5):
-        descCache = {1:[1,0]}
-        start = datetime.datetime.now()
-        q2test()
-        end = datetime.datetime.now()
-        diff = end - start
-        print(diff)
+    cProfile.run("q2test()")
