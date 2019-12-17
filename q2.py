@@ -1,19 +1,12 @@
-# q2.py written by James Townsend, December 2019
-# Tested using Python 3.7.4
-
-import datetime, cProfile
-
 factMemo = {0:1,1:1} # This stores the results of all factorisations so we can quickly access them on-demand
 childCache = {} # This caches the results of all children so that we do not have to calculate them again when the same numbers come up
 descCache = {1:[1,0]} # This caches the results of all descendants that we calculate, saving time on repeated tests (and when the same sequences comes up)
-
 def fact(n): # Recursive function for factorising
     if n in factMemo: # If we have the factorial memoised
         return factMemo[n] # Then just return that
     result = n * fact(n-1) # Otherwise calculate n * the factorial of n-1
     factMemo[n] = result # Memoise that result
     return result # And return it
-
 def getChild(num): # Function to get the child of a number
     if num in childCache: # If we have already worked out the child of a number
         return childCache[num] # Return what we have cached
@@ -22,73 +15,36 @@ def getChild(num): # Function to get the child of a number
         total += fact(int(digit)) # Add the factorial of our result to the total
     childCache[num] = total # Cache the final result
     return total # Return the final result
-
-def getDescIter(n):
-    if n in descCache:
-        return descCache[n][0]
-    descs = []
-    cGen = getChild(n)
-    while cGen not in descs:
-        descs.append(cGen)
-        cGen = getChild(cGen)
-    return len(descs)
-
-def getDescendants(n, seq=None):
-    if seq == None:
-        seq = []
-    seq.append(n)
-    #print(n)
-    if n not in seq[:1] and n == getChild(n):
-        return 0
-    if seq.count(n) > 1:
-        for i in range(seq.index(n),len(seq)):
-            descCache[seq[i]] = [getDescIter(seq[i]),1]
-            #print("Iteration time motherhecker", seq[i], ":", descCache[seq[i]][0])
-        return -1
-    if n in descCache:
-        #print("getting cache for", n, ":", descCache[n])
-        cache = descCache[n]
-        if cache[1] == 1:
-            return cache[0]-1
-        return cache[0]
-    res = 1 + getDescendants(getChild(n), seq)
-    if n not in descCache:
-        #print("Updating cache for", n, ":", res)
-        descCache[n] = [res,0]
-    return res
-
+def getDescIter(n): # Little iterative algorithm used to find the number of descendents for numbers that occur in a loop (e.g. 169)
+    descs = [] # Empty list of descendants
+    cGen = getChild(n) # Get the next generation
+    while cGen not in descs: # While we haven't seen it before,
+        descs.append(cGen) # Append it to our list of descendants
+        cGen = getChild(cGen) # Get the next generation
+    return len(descs) # Return the number of descendants
+def getDescendants(n, seq=None): # Recursive function that returns the number of descendants of any given number
+    if not seq: # If a previous sequence has not been specified, 
+        seq = [] # Initialise an empty list for it
+    seq.append(n) # Append the current value to the sequence list
+    if n not in seq[:1] and n == getChild(n): # If the current value isn't the number whose descendants we're after (i.e. seq[0]) but it is it's own child
+        return 0 # We're at the end of the sequence so return 0
+    if seq.count(n) > 1: # If we've encountered this number before, then we must be in a "loop" of numbers
+        for i in range(seq.index(n),len(seq)): # Iterate over all of the numbers in the loop
+            descCache[seq[i]] = [getDescIter(seq[i]),1] # For each of them, iteratively find their descendants (trying to do it recursively will end in a loop)
+        return -1 # We've gone past the end of the valid sequence of descendants here, so return -1
+    if n in descCache: # If we've seen this value before
+        cache = descCache[n] # Get the cached value
+        if cache[1] == 1: # The cached value has two parts - the number of descendants and a 'danger' flag. The danger flag is 1 if the number is part of a loop and 0 otherwise.
+            return cache[0]-1 # If the 'danger' flag is set, then we need to return one less than the cached value
+        return cache[0] # Otherwise return 0
+    res = 1 + getDescendants(getChild(n), seq) # Recursive call if none of the above conditions are true
+    if n not in descCache: # If we haven't dealt with n before,
+        descCache[n] = [res,0] # Cache whatever we got as the result
+    return res # Return the result (this isn't actually accurate for the original n, but is required for the recursion to work)
 def descendants(n1,n2,k): # Returns the number of integers [n1,n2) that have k descendants
     total = 0 # Keeps a total of the number of ints with k descendants
-    for i in range(n1,n2):
-        getDescendants(i)
-        descs = descCache[i][0]
-        #print(i, descs)
-        if descs == k:
-            total += 1
-    #print(total)
-    return total
-            
-def q2test():
-    assert descendants(1,2,1) == 1
-    print("t1 done")
-    assert descendants(1,200,1) == 6
-    print("t2 done")
-    assert descendants(1,200,2) == 2
-    print("t3 done")
-    assert descendants(1,2000,3) == 33
-    print("t4 done")
-    assert descendants(4000,6000,3) == 36
-    print("t5 done")
-    assert descendants(123456,654321,20) == 4015
-    print("t6 done")
-    assert descendants(1,1000000,59) == 402
-    print("t7 done")
-    assert descendants(1,1000000,60) == 0
-    print("All tests completed")
-
-
-if __name__ == "__main__":
-    #print(getDescendants(2))
-    #getDescendants(4)
-    #getDescendants(10)
-    cProfile.run("q2test()")
+    for i in range(n1,n2): # Iterate over the set of numbers
+        getDescendants(i) # Get the descendants of each
+        if descCache[i][0] == k: # If the number of descendants matches k
+            total += 1 # Increment the total
+    return total # Return the total
