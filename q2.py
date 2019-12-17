@@ -1,6 +1,8 @@
 # q2.py written by James Townsend, December 2019
 # Tested using Python 3.7.4
 
+import datetime
+
 factMemo = {0:1,1:1} # This stores the results of all factorisations so we can quickly access them on-demand
 childCache = {} # This caches the results of all children so that we do not have to calculate them again when the same numbers come up
 descCache = {1:[1,0]} # This caches the results of all descendants that we calculate, saving time on repeated tests (and when the same sequences comes up)
@@ -21,12 +23,12 @@ def getChild(num): # Function to get the child of a number
     childCache[num] = total # Cache the final result
     return total # Return the final result
 
-def getDescIter(n, pre = None):
+def getDescIter(n):
+    if n in descCache:
+        return descCache[n][0]
     descs = []
-    if not pre:
-        pre = []
     cGen = getChild(n)
-    while cGen not in descs and cGen not in pre:
+    while cGen not in descs:
         descs.append(cGen)
         cGen = getChild(cGen)
     return len(descs)
@@ -89,4 +91,10 @@ if __name__ == "__main__":
     #print(getDescendants(2))
     #getDescendants(4)
     #getDescendants(10)
-    q2test()
+    for i in range(5):
+        descCache = {1:[1,0]}
+        start = datetime.datetime.now()
+        q2test()
+        end = datetime.datetime.now()
+        diff = end - start
+        print(diff)
