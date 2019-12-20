@@ -16,8 +16,16 @@ def read_input(filename):
 
 
 def insertionsort(A):
-    # your code goes here
-    return ? # return value must be argument list A in sorted
+    x = 1
+    while x < len(A):
+        y = x
+        while y > 0 and A[y-1] > A[y]:
+            tmp = A[y]
+            A[y] = A[y-1]
+            A[y-1] = A[y]
+            y -= 1
+        x += 1
+    return A
    
     
 def partition(A, k):
