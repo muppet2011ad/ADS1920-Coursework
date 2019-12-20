@@ -53,14 +53,26 @@ def partition(A, k):
     
 
 def quicksort(A, k):
-    print(partition([1,7,2,6,3,4,5],k))
-    
+    if len(A) < 2*k:
+        return insertionsort(A)
+    partitions = partition(A,k)
+    final = []
+    for part in partitions:
+        final += quicksort(part,k)
+    return final
+
+def testland():
+    print(quicksort([7,6,5,4,3,2,1],3))
+    print(quicksort([7,6,5,4,3,2,1],2))
+    print(quicksort([7,6,5,4,3,2,1],8))
+    print(quicksort([1,4,8,5,2,6,7],3))
 
 def main():
+    testland()
     #k = int(sys.argv[1])
     #filename = sys.argv[2]
     #A = read_input(filename)
-    print(quicksort([],3))
+    #print(quicksort(A,k))
     
 if __name__ == "__main__":
     main()
