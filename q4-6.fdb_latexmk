@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1576691286 "q4-6.tex" "q4-6.pdf" "q4-6" 1576691286
+["pdflatex"] 1576857019 "q4-6.tex" "q4-6.pdf" "q4-6" 1576857019
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1572595918 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1572595918 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc" 1572595918 2840 216e6e45ad352e2456e1149f28885bee ""
@@ -61,9 +61,9 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1572595918 33301 a3134070eacafb10b1f371612ce2650d ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1576187027 334286 7d54d57af850f32d2e4cd0d3222731c3 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1576187024 8044940 5ad7c6eead5cb5eae088de07cb4f1d24 ""
-  "q4-6.aux" 1576691286 200 17bfb33be67b3cf84c3f209d11526769 "pdflatex"
-  "q4-6.tex" 1576691285 3005 412d44b9f9bdfc32e372d2088a3ab7c9 ""
+  "q4-6.aux" 1576857019 296 8f8ce254415f6bd2984a067d7ce9eb12 "pdflatex"
+  "q4-6.tex" 1576857018 4159 dc6ed8a0986ea2abe528fc1e5f644d17 ""
   (generated)
+  "q4-6.aux"
   "q4-6.pdf"
   "q4-6.log"
-  "q4-6.aux"
