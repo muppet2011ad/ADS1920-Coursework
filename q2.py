@@ -1,18 +1,12 @@
-factMemo = {0:1,1:1} # This stores the results of all factorisations so we can quickly access them on-demand
+fact = [1,1,2,6,24,120,720,5040,40320,362880]
 childCache = {} # This caches the results of all children so that we do not have to calculate them again when the same numbers come up
 descCache = {1:[1,0]} # This caches the results of all descendants that we calculate, saving time on repeated tests (and when the same sequences comes up)
-def fact(n): # Recursive function for factorising
-    if n in factMemo: # If we have the factorial memoised
-        return factMemo[n] # Then just return that
-    result = n * fact(n-1) # Otherwise calculate n * the factorial of n-1
-    factMemo[n] = result # Memoise that result
-    return result # And return it
 def getChild(num): # Function to get the child of a number
     if num in childCache: # If we have already worked out the child of a number
         return childCache[num] # Return what we have cached
     total = 0 # Set the total of our sum to be zero
     for digit in str(num): # To iterate over the digits of a number we need to convert it to a string and iterate over the chars
-        total += fact(int(digit)) # Add the factorial of our result to the total
+        total += fact[int(digit)] # Add the factorial of our result to the total
     childCache[num] = total # Cache the final result
     return total # Return the final result
 def getDescIter(n): # Little iterative algorithm used to find the number of descendents for numbers that occur in a loop (e.g. 169)
