@@ -15,7 +15,7 @@ def read_input(filename):
     return A
 
 
-def insertionsort(A):
+def insertionsort(A): # Insertion sort function
     x = 1
     while x < len(A):
         y = x
@@ -30,36 +30,36 @@ def insertionsort(A):
     
 def partition(A, k):
     pivots = insertionsort(A[:k]) # Select the first k elements to be our pivots (randomised quicksort) and sorts them (to make comparison easier)
-    nonpivots = A[k:]
-    partDict = {}
+    nonpivots = A[k:] # The elements to slot between the pivots is everything afterwards
+    partDict = {} # We keep a dictionary for each part of the list
     for pivot in pivots:
-        partDict[pivot] = []
-    partDict["end"] = []
-    for integer in nonpivots:
-        done = False
-        for pivot in pivots:
-            if integer < pivot:
-                partDict[pivot].append(integer)
+        partDict[pivot] = [] # For every pivot, give it a list in the dictionary. We use this to store all values less than this pivot (but greater than the previous one)
+    partDict["end"] = [] # We also need to have a group that stores numbers bigger than the largest pivot
+    for integer in nonpivots: # For every integer that isn't a pivot
+        done = False # Keep a variable to track whether we've found a place for it
+        for pivot in pivots: # Iterate through the pivots
+            if integer < pivot: # If the integer is less than the pivot
+                partDict[pivot].append(integer) # Store it in the corresponding list
                 done = True
-                break
-        if not done:
-            partDict["end"].append(integer)
-    partitions = []
-    for pivot in pivots:
-        partitions.append(partDict[pivot] + [pivot])
-    partitions.append(partDict["end"])
-    return partitions
+                break # Get out of the loop
+        if not done: # If we go through all pivots without finding a place
+            partDict["end"].append(integer) # We know it has to go in the end list
+    partitions = [] # Create a list to store the partitions of the list
+    for pivot in pivots: # For every pivot
+        partitions.append(partDict[pivot] + [pivot]) # Append the list of the elements smaller than it (and itself) to the partitions
+    partitions.append(partDict["end"]) # Add in the final segment
+    return partitions # Return this partitions
     
     
 
-def quicksort(A, k):
-    if len(A) < 2*k:
-        return insertionsort(A)
-    partitions = partition(A,k)
-    final = []
-    for part in partitions:
-        final += quicksort(part,k)
-    return final
+def quicksort(A, k): # kQS method
+    if len(A) < 2*k: # If the length of the array is too small
+        return insertionsort(A) # Sort it by insertion
+    partitions = partition(A,k) # Otherwise partition the array
+    final = [] # Create a list for the final combination of sorted partitions
+    for part in partitions: # For every partition
+        final += quicksort(part,k) # Quicksort it and append this to our final list
+    return final # Return the result
 
 #def testland():
 #    print(quicksort([7,6,5,4,3,2,1],3))
