@@ -1,3 +1,6 @@
+# jsbl33 December 2019
+# Tested on Python 3.8.1
+
 fact = [1,1,2,6,24,120,720,5040,40320,362880]
 childCache = {} # This caches the results of all children so that we do not have to calculate them again when the same numbers come up
 descCache = {1:[1,0]} # This caches the results of all descendants that we calculate, saving time on repeated tests (and when the same sequences comes up)

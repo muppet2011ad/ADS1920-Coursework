@@ -1,9 +1,5 @@
-#q3test.py
-#algorithms and data structures assignment 2019-20 q3
-#matthew johnson 13 november 2019
-
-#####################################################
-
+# jsbl33 December 2019
+# Tested using Python 3.8.1
 
 def LOP(string):
     """finds the longest odd length palindrome within a given string"""

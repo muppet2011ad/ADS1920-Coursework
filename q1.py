@@ -1,5 +1,5 @@
-# q1.py written by James Townsend, December 2019
-# Tested using Python 3.7.4 (because that's what happens to be in the Manjaro repos)
+# q1.py written by jsbl33, December 2019
+# Tested using Python 3.8.1 (because that's what happens to be in the Manjaro repos)
 
 def hash_quartic(keys):
     table = ["-"]*23 # Initialise hash table array
