@@ -28,9 +28,9 @@ def getDescendants(n, seq=None): # Recursive function that returns the number of
     if not seq: # If a previous sequence has not been specified, 
         seq = [] # Initialise an empty list for it
     seq.append(n) # Append the current value to the sequence list
-    if n not in seq[:1] and n == getChild(n): # If the current value isn't the number whose descendants we're after (i.e. seq[0]) but it is it's own child
+    if n != seq[0] and n == getChild(n): # If the current value isn't the number whose descendants we're after (i.e. seq[0]) but it is it's own child
         return 0 # We're at the end of the sequence so return 0
-    if seq.count(n) > 1: # If we've encountered this number before, then we must be in a "loop" of numbers
+    if n in seq[:-1]: # If we've encountered this number before, then we must be in a "loop" of numbers
         for i in range(seq.index(n),len(seq)): # Iterate over all of the numbers in the loop
             descCache[seq[i]] = [getDescIter(seq[i]),1] # For each of them, iteratively find their descendants (trying to do it recursively will end in a loop)
         return -1 # We've gone past the end of the valid sequence of descendants here, so return -1
