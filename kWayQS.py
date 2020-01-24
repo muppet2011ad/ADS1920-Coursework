@@ -49,7 +49,7 @@ def partition(A, k):
     return partitions # Return this partitions
 
 def quicksort(A, k): # kQS method
-    if len(A) < 2*k: # If the length of the array is too small
+    if len(A) <= 2*k: # If the length of the array is too small
         return insertionsort(A) # Sort it by insertion
     partitions = partition(A,k) # Otherwise partition the array
     final = [] # Create a list for the final combination of sorted partitions
